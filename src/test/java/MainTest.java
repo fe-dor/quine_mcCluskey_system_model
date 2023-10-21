@@ -1,7 +1,7 @@
 import org.apache.commons.math3.random.RandomDataGenerator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 import my_system_model.Wrapper2;
+import org.junit.experimental.categories.Category;
 import system_model.Wrapper1;
 
 
@@ -13,24 +13,81 @@ import java.util.Scanner;
 
 import static java.lang.Math.pow;
 
+interface SystemModelResultCounts { /* category marker */ }
+interface MySystemModelResultCounts { /* category marker */ }
+
 public class MainTest {
     protected static final String TESTING_VECTORS = "src/test/resources/testingVectors.txt";
     protected static final String SYSTEM_MODEL_RESULTS = "src/test/resources/systemModelResults.txt";
     protected static final String MY_SYSTEM_MODEL_RESULTS = "src/test/resources/mySystemModelResults.txt";
-    protected static final int capacity = 5;
-    protected static final int testValuesCount = 500;
+    private static final int capacity = 5;
+    private static final int testValuesCount = 5000;
 
-    @Test
+    private CheckMinimizedFunction checkMinimizedFunction;
+    private int countOfResults;
+    private int countOfResultsMy;
+
+//    public MainTest() {
+//        try {
+//            //createVectors(capacity, testValuesCount);
+//            countOfResults = getResults1();
+//            countOfResultsMy = getResults2(capacity);
+//            checkMinimizedFunction = new CheckMinimizedFunction(capacity, testValuesCount);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    @Before
     public void testOutputResults(){
         try {
             createVectors(capacity, testValuesCount);
-            getResults1();
-            getResults2(capacity);
+            countOfResults = getResults1();
+            countOfResultsMy = getResults2(capacity);
+            checkMinimizedFunction = new CheckMinimizedFunction(capacity, testValuesCount);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        int i = 1;
-        Assert.assertEquals(i, 1);
+    }
+
+    @Test
+    public void testCountOfResults(){
+        Assert.assertEquals(countOfResults, testValuesCount);
+    }
+
+    @Test
+    public void testCountOfResultsMy(){
+        Assert.assertEquals(countOfResultsMy, testValuesCount);
+    }
+
+    @Test
+    public void testCountOfReadResults(){
+        Assert.assertEquals(checkMinimizedFunction.getTestingValues1().size(), testValuesCount);
+    }
+
+    @Test
+    public void testCountOfReadResultsMy(){
+        Assert.assertEquals(checkMinimizedFunction.getTestingValues2().size(), testValuesCount);
+    }
+
+    @Test
+    public void testCountOfReadInputVectors(){
+        Assert.assertEquals(checkMinimizedFunction.getInputVectors().size(), testValuesCount);
+    }
+
+    @Test
+    public void testCheckMinimization(){
+        checkMinimizedFunction.testCheckMinimization();
+    }
+
+    @Test
+    public void testCheckMinimizationMy(){
+        checkMinimizedFunction.testCheckMinimizationMy();
+    }
+
+    @Test
+    public void testMetricForMinimizedFunction() throws FileNotFoundException {
+        Assert.assertTrue(checkMinimizedFunction.checkMetricOfResultFunction());
     }
 
     private static void createVectors(int capacity, int count) throws FileNotFoundException {
@@ -44,7 +101,7 @@ public class MainTest {
         PrintWriter out = new PrintWriter(TESTING_VECTORS);
         long testingVector;
         for (int i = 0; i < count; i++){
-            testingVector = new RandomDataGenerator().nextLong(0L, (long)pow(2, length));
+            testingVector = new RandomDataGenerator().nextLong(0L, (long)pow(2, length)-1);
             binaryString = Long.toBinaryString(testingVector);
             vect.replace(length - binaryString.length(), length, binaryString);
             out.println(vect);
@@ -53,7 +110,7 @@ public class MainTest {
         out.close();
     }
 
-    private static void getResults1() throws FileNotFoundException {
+    private static int getResults1() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(TESTING_VECTORS));
         ArrayList<String> testingValues = new ArrayList<>();
         while(scanner.hasNextLine()){
@@ -65,9 +122,10 @@ public class MainTest {
             out.println(Wrapper1.calculate(testingValue));
         }
         out.close();
+        return testingValues.size();
     }
 
-    private static void getResults2(int capacity) throws FileNotFoundException {
+    private static int getResults2(int capacity) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(TESTING_VECTORS));
         ArrayList<String> testingValues = new ArrayList<>();
         while(scanner.hasNextLine()){
@@ -76,9 +134,9 @@ public class MainTest {
         scanner.close();
         PrintWriter out = new PrintWriter(MY_SYSTEM_MODEL_RESULTS);
         for (String testingValue : testingValues) {
-            System.out.println(testingValue);
             out.println(Wrapper2.calculate(testingValue, capacity));
         }
         out.close();
+        return testingValues.size();
     }
 }

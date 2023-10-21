@@ -7,11 +7,11 @@ public class Wrapper2 {
     static int n2 = 5; //разрядность функции
     static int[] func2 = string_to_array("00101000101100010010100010110001");//вектор
     static int n3 = 5; //разрядность функции
-    static int[] func3 = string_to_array("01100111110011001100110011001101");//вектор
+    static int[] func3 = string_to_array("11111111111111110000000000000000");//вектор
 
     public static void main(String[] args) {
         ArrayList<int[]> result = Run.quineMcCluskey(func3, n3);
-        ArrayList<String> res_in_letters = convertToLettersForm(result);
+        ArrayList<String> res_in_letters = convertToLettersForm(result, n3);
         for (int i = 0; i < result.size(); i++){
             System.out.print(Arrays.toString(result.get(i)) + " ");
         }
@@ -21,7 +21,7 @@ public class Wrapper2 {
 
     public static String calculate(String vector, int capacity){
         ArrayList<int[]> result = Run.quineMcCluskey(string_to_array(vector), capacity);
-        return convertLettersFormToString(convertToLettersForm(result));
+        return convertLettersFormToString(convertToLettersForm(result, capacity));
     }
 
     private static int[] string_to_array(String str){
@@ -32,7 +32,7 @@ public class Wrapper2 {
         return arr;
     }
 
-    private static ArrayList<String> convertToLettersForm(ArrayList<int[]> bitForm){
+    private static ArrayList<String> convertToLettersForm(ArrayList<int[]> bitForm, int n){
         ArrayList<String> res = new ArrayList<>();
         StringBuilder buf = new StringBuilder();
         for (int[] ints : bitForm) {
@@ -50,6 +50,16 @@ public class Wrapper2 {
             res.add(buf.toString());
             buf = new StringBuilder();
         }
+        if (bitForm.size() == 1) {
+            boolean flag = true;
+            for (int i = 0; i < n; i++){
+                flag = flag && bitForm.get(0)[i] == 3;
+            }
+            if (flag){
+                res = new ArrayList<>(){};
+                res.add("1");
+            }
+        }
         return res;
     }
 
@@ -59,7 +69,11 @@ public class Wrapper2 {
             res.append(str);
             res.append("+");
         }
-        res.deleteCharAt(res.length() - 1);
-        return res.toString();
+        if(res.length() != 0) {
+            res.deleteCharAt(res.length() - 1);
+            return res.toString();
+        }
+        else
+            return "";
     }
 }

@@ -1,6 +1,7 @@
 package my_system_model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Run {
     //Ввод данных с платы:
@@ -14,14 +15,18 @@ public class Run {
     static int[] func2 = string_to_array("00101000101100010010100010110001");//вектор
 
     static int n3 = 5; //разрядность функции
-    static int[] func3 = string_to_array("01100111110011001100110011001101");//вектор
+    static int[] func3 = string_to_array("11111111111111111111111111111111");//вектор
 
     static int n4 = 2; //разрядность функции
     static int[] func4 = string_to_array("11");//вектор
 
     public static void main(String[] args) {
         //quineMcCluskey(func, n);
-        quineMcCluskey(func3, n3);
+        ArrayList<int[]> quineMcCluskey = quineMcCluskey(func3, n3);
+        System.out.println(Arrays.toString(func3));
+        for (int[] arr : quineMcCluskey){
+            System.out.println(Arrays.toString(arr));
+        }
     }
 
     private static int[] string_to_array(String str){
@@ -204,31 +209,36 @@ public class Run {
         int c1c = 0; //count of 1 in column
         int max_c1c = 0;
 
-        while(true) {
-            for (int i = 0; i < cpi; i++) {
-                for (int j = 0; j < c1pt[l]; j++) {
-                    if (petrick_table[l][j][i] == 1) {
-                        c1c++;
+        if(c1pt[0] > 0) {
+            while (true) {
+                for (int i = 0; i < cpi; i++) {
+                    for (int j = 0; j < c1pt[l]; j++) {
+                        if (petrick_table[l][j][i] == 1) {
+                            c1c++;
+                        }
+                    }
+                    if (c1c > max_c1c) {
+                        max_c1c = c1c;
+                        pei = i;
+                    }
+                    c1c = 0;
+                }
+
+                pi[pei][n] = 4;
+                for (int i = 0; i < c1pt[l]; i++) {
+                    if (petrick_table[l][i][pei] != 1) {
+                        petrick_table[l + 1][c1pt[l + 1]] = petrick_table[l][i].clone();
+                        c1pt[l + 1]++;
                     }
                 }
-                if (c1c > max_c1c) {
-                    max_c1c = c1c;
-                    pei = i;
+                if (c1pt[l + 1] == 0) {
+                    break;
                 }
+                l++;
+                c1c = 0;
+                max_c1c = 0;
+
             }
-            pi[pei][n] = 4;
-            for (int i = 0; i < c1pt[l]; i++) {
-                if (petrick_table[l][i][pei] != 1) {
-                    petrick_table[l + 1][c1pt[l + 1]] = petrick_table[l][i].clone();
-                    c1pt[l + 1]++;
-                }
-            }
-            if (c1pt[l + 1] == 0) {
-                break;
-            }
-            l++;
-            c1c = 0;
-            max_c1c = 0;
         }
 
 

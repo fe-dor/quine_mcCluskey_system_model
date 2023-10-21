@@ -12,7 +12,7 @@ public class Wrapper1 {
     }
 
     public static void main(String[] args) {
-        String vector = "1100110011001100";
+        String vector = "11111111";
         String result = McQuineController.calculate(strVectorToMinterms(vector));
         System.out.println(result);
     }

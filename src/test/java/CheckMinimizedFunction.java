@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,37 +11,62 @@ import static java.lang.Math.pow;
 import static java.lang.Math.scalb;
 
 public class CheckMinimizedFunction {
+    protected static final String BAD_METRIC_LINES = "src/test/resources/badMetricLines.txt";
+
     private ArrayList<String> testingValues1;
     private ArrayList<String> testingValues2;
     private ArrayList<String> inputVectors;
-    private int capacity = MainTest.capacity;
+    private int capacity;
+    private int testValuesCount;
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public ArrayList<String> getTestingValues1() {
+        return testingValues1;
     }
 
-    @Test
-    public void test(){
-        boolean res1;
-        boolean res2;
+    public ArrayList<String> getTestingValues2() {
+        return testingValues2;
+    }
+
+    public ArrayList<String> getInputVectors() {
+        return inputVectors;
+    }
+
+    public CheckMinimizedFunction(int capacity, int testValuesCount) {
+        this.capacity = capacity;
+        this.testValuesCount = testValuesCount;
         try {
             readResultArrays();
             readInputVector();
-            for (int i = 0; i < 100; i++) {
-                res1 = checkOneVector(i, 0);
-                res2 = checkOneVector(i, 1);
-                System.out.print(inputVectors.get(i) + " " + testingValues1.get(i) + " " + testingValues2.get(i));
-                System.out.print(" " + res1 + " ");
-                System.out.println(res2);
-                Assert.assertTrue(res1);
-                Assert.assertTrue(res2);
-            }
         } catch (FileNotFoundException e) {
+            System.out.println("Can't read results and input vectors files");
             e.printStackTrace();
         }
     }
 
-    public void readResultArrays() throws FileNotFoundException {
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+    public void setTestValuesCount(int testValuesCount) {
+        this.testValuesCount = testValuesCount;
+    }
+
+    public void testCheckMinimization(){
+        boolean res;
+        for (int i = 0; i < testValuesCount; i++) {
+            res = checkOneVector(i, 0);
+            Assert.assertTrue(res);
+        }
+    }
+
+    public void testCheckMinimizationMy(){
+        boolean res;
+        for (int i = 0; i < testValuesCount; i++) {
+            res = checkOneVector(i, 1);
+            Assert.assertTrue(res);
+        }
+    }
+
+    private void readResultArrays() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(MainTest.SYSTEM_MODEL_RESULTS));
         testingValues1 = new ArrayList<>();
         while(scanner.hasNextLine()){
@@ -114,4 +140,23 @@ public class CheckMinimizedFunction {
         return res;
     }
 
+    private int getMetricOfResultFunction(String str){
+        return str.length();
+    }
+
+    public boolean checkMetricOfResultFunction() throws FileNotFoundException {
+        PrintWriter out = new PrintWriter(BAD_METRIC_LINES);
+
+        for (int i = 0; i < testValuesCount; i++){
+            if(testingValues1.get(i).length() < testingValues2.get(i).length()){
+                out.println(i+1 + " val1: " + testingValues1.get(i).length() + " " + testingValues1.get(i) +
+                        " my val: " + testingValues2.get(i).length() + " " + testingValues2.get(i));
+                out.println(inputVectors.get(i));
+                out.close();
+                return false;
+            }
+        }
+        out.close();
+        return true;
+    }
 }

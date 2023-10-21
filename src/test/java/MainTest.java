@@ -17,13 +17,15 @@ public class MainTest {
     protected static final String TESTING_VECTORS = "src/test/resources/testingVectors.txt";
     protected static final String SYSTEM_MODEL_RESULTS = "src/test/resources/systemModelResults.txt";
     protected static final String MY_SYSTEM_MODEL_RESULTS = "src/test/resources/mySystemModelResults.txt";
+    protected static final int capacity = 5;
+    protected static final int testValuesCount = 500;
 
     @Test
     public void testOutputResults(){
         try {
-            createVectors(4, 100);
+            createVectors(capacity, testValuesCount);
             getResults1();
-            getResults2(4);
+            getResults2(capacity);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

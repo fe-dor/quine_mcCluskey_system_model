@@ -1,7 +1,9 @@
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import static java.lang.Math.pow;
@@ -11,24 +13,27 @@ public class CheckMinimizedFunction {
     private ArrayList<String> testingValues1;
     private ArrayList<String> testingValues2;
     private ArrayList<String> inputVectors;
-    private final int capacity;
+    private int capacity = MainTest.capacity;
 
-    CheckMinimizedFunction(int capacity){
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public static void main(String[] args) {
-        new CheckMinimizedFunction(5).run();
-    }
-
-    public void run(){
+    @Test
+    public void test(){
+        boolean res1;
+        boolean res2;
         try {
             readResultArrays();
             readInputVector();
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 100; i++) {
+                res1 = checkOneVector(i, 0);
+                res2 = checkOneVector(i, 1);
                 System.out.print(inputVectors.get(i) + " " + testingValues1.get(i) + " " + testingValues2.get(i));
-                System.out.print(" " + checkOneVector(i, 0) + " ");
-                System.out.println(checkOneVector(i, 1));
+                System.out.print(" " + res1 + " ");
+                System.out.println(res2);
+                Assert.assertTrue(res1);
+                Assert.assertTrue(res2);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

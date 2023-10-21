@@ -1,3 +1,173 @@
+
+Initializing Quine-McCluskey data structures...
+
+MINTERMS:			| 0 || 6 || 7 || 8 || 10 || 12 || 13 || 15 || 16 || 19 || 21 || 26 || 28 || 29 || 30 || 31 |
+NUMBER OF MINTERMS:		16
+NUMBER OF LITERALS TO USE:	5
+
+Initializing list of implicants...
+
+IMPLICANT LIST:
+| BitCount | BinaryValue |  Mark | MintermList
+|        0 |       00000 | false | [0] 
+|        2 |       00110 | false | [6] 
+|        3 |       00111 | false | [7] 
+|        1 |       01000 | false | [8] 
+|        2 |       01010 | false | [10] 
+|        2 |       01100 | false | [12] 
+|        3 |       01101 | false | [13] 
+|        4 |       01111 | false | [15] 
+|        1 |       10000 | false | [16] 
+|        3 |       10011 | false | [19] 
+|        3 |       10101 | false | [21] 
+|        3 |       11010 | false | [26] 
+|        3 |       11100 | false | [28] 
+|        4 |       11101 | false | [29] 
+|        4 |       11110 | false | [30] 
+|        5 |       11111 | false | [31] 
+
+Running Quine McCluskey...
+Comparison is complete.
+GENERATED TABLES:
+
+------------------------------------------TABLE 0
+SECTION: 0
+| BitCount | BinaryValue |  Mark | MintermList
+|        0 |       00000 |  true | [0] 
+
+SECTION: 1
+| BitCount | BinaryValue |  Mark | MintermList
+|        1 |       01000 |  true | [8] 
+|        1 |       10000 |  true | [16] 
+
+SECTION: 2
+| BitCount | BinaryValue |  Mark | MintermList
+|        2 |       00110 |  true | [6] 
+|        2 |       01010 |  true | [10] 
+|        2 |       01100 |  true | [12] 
+
+SECTION: 3
+| BitCount | BinaryValue |  Mark | MintermList
+|        3 |       00111 |  true | [7] 
+|        3 |       01101 |  true | [13] 
+|        3 |       10011 | false | [19] 
+|        3 |       10101 |  true | [21] 
+|        3 |       11010 |  true | [26] 
+|        3 |       11100 |  true | [28] 
+
+SECTION: 4
+| BitCount | BinaryValue |  Mark | MintermList
+|        4 |       01111 |  true | [15] 
+|        4 |       11101 |  true | [29] 
+|        4 |       11110 |  true | [30] 
+
+SECTION: 5
+| BitCount | BinaryValue |  Mark | MintermList
+|        5 |       11111 |  true | [31] 
+
+
+------------------------------------------TABLE 1
+SECTION: 0
+| BitCount | BinaryValue |  Mark | MintermList
+|        0 |       0-000 | false | [0, 8] 
+|        0 |       -0000 | false | [0, 16] 
+
+SECTION: 1
+| BitCount | BinaryValue |  Mark | MintermList
+|        1 |       010-0 | false | [8, 10] 
+|        1 |       01-00 | false | [8, 12] 
+
+SECTION: 2
+| BitCount | BinaryValue |  Mark | MintermList
+|        2 |       0011- | false | [6, 7] 
+|        2 |       -1010 | false | [10, 26] 
+|        2 |       0110- |  true | [12, 13] 
+|        2 |       -1100 |  true | [12, 28] 
+
+SECTION: 3
+| BitCount | BinaryValue |  Mark | MintermList
+|        3 |       0-111 | false | [7, 15] 
+|        3 |       011-1 |  true | [13, 15] 
+|        3 |       -1101 |  true | [13, 29] 
+|        3 |       1-101 | false | [21, 29] 
+|        3 |       11-10 | false | [26, 30] 
+|        3 |       1110- |  true | [28, 29] 
+|        3 |       111-0 |  true | [28, 30] 
+
+SECTION: 4
+| BitCount | BinaryValue |  Mark | MintermList
+|        4 |       -1111 |  true | [15, 31] 
+|        4 |       111-1 |  true | [29, 31] 
+|        4 |       1111- |  true | [30, 31] 
+
+
+------------------------------------------TABLE 2
+SECTION: 0
+EMPTY!
+
+SECTION: 1
+EMPTY!
+
+SECTION: 2
+| BitCount | BinaryValue |  Mark | MintermList
+|        2 |       -110- | false | [12, 13, 28, 29] 
+|        2 |       -110- | false | [12, 28, 13, 29] 
+
+SECTION: 3
+| BitCount | BinaryValue |  Mark | MintermList
+|        3 |       -11-1 | false | [13, 15, 29, 31] 
+|        3 |       -11-1 | false | [13, 29, 15, 31] 
+|        3 |       111-- | false | [28, 29, 30, 31] 
+|        3 |       111-- | false | [28, 30, 29, 31] 
+
+
+------------------------------------------TABLE 3
+SECTION: 0
+EMPTY!
+
+SECTION: 1
+EMPTY!
+
+SECTION: 2
+EMPTY!
+
+
+------------------------------------------TABLE 4
+SECTION: 0
+EMPTY!
+
+SECTION: 1
+EMPTY!
+
+
+Prime Implicants Table
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ |	[19]	1
+| x || _ || _ || x || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ |	[0, 8]	2
+| x || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ || _ |	[0, 16]	2
+| _ || _ || _ || x || x || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ |	[8, 10]	2
+| _ || _ || _ || x || _ || x || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ |	[8, 12]	2
+| _ || x || x || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ |	[6, 7]	2
+| _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ || x || _ || _ || _ || _ |	[10, 26]	2
+| _ || _ || x || _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ || _ || _ |	[7, 15]	2
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || x || _ || _ |	[21, 29]	2
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || x || _ |	[26, 30]	2
+| _ || _ || _ || _ || _ || x || x || _ || _ || _ || _ || _ || x || x || _ || _ |	[12, 13, 28, 29]	4
+| _ || _ || _ || _ || _ || _ || x || x || _ || _ || _ || _ || _ || x || _ || x |	[13, 15, 29, 31]	4
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || x || x || x || x |	[28, 29, 30, 31]	4
+
+Essential Prime Implicants
+| 0 || 6 || 7 || 8 || 10 || 12 || 13 || 15 || 16 || 19 || 21 || 26 || 28 || 29 || 30 || 31 |
+| _ || x || x || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ |	[6, 7]	2
+| x || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ || _ |	[0, 16]	2
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ |	[19]	1
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || x || _ || _ |	[21, 29]	2
+| _ || _ || _ || _ || _ || x || x || _ || _ || _ || _ || _ || x || _ || _ || _ |	[12, 13, 28, 29]	3
+| _ || _ || _ || x || x || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ |	[8, 10]	2
+| _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || _ || x || _ || _ || x || _ |	[26, 30]	2
+| _ || _ || _ || _ || _ || _ || _ || x || _ || _ || _ || _ || _ || _ || _ || x |	[13, 15, 29, 31]	2
+
+The simplified expression is: a'b'cd+b'c'd'e'+ab'c'de+acd'e+bcd'+a'bc'e'+abde'+bce
+abCD+bcde+AbcDE+ACdE+BCd+aBce+ABDe+BCE
 11001111101000100110100101010100
 11110110101100011011100000010011
 01101111100111011110000000001100

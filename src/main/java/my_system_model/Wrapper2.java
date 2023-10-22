@@ -10,7 +10,7 @@ public class Wrapper2 {
     static int[] func3 = string_to_array("11111111111111110000000000000000");//вектор
 
     public static void main(String[] args) {
-        ArrayList<int[]> result = Run.quineMcCluskey(func3, n3);
+        ArrayList<byte[]> result = Run.quineMcCluskey(func3, n3);
         ArrayList<String> res_in_letters = convertToLettersForm(result, n3);
         for (int i = 0; i < result.size(); i++){
             System.out.print(Arrays.toString(result.get(i)) + " ");
@@ -20,7 +20,7 @@ public class Wrapper2 {
     }
 
     public static String calculate(String vector, int capacity){
-        ArrayList<int[]> result = Run.quineMcCluskey(string_to_array(vector), capacity);
+        ArrayList<byte[]> result = Run.quineMcCluskey(string_to_array(vector), capacity);
         return convertLettersFormToString(convertToLettersForm(result, capacity));
     }
 
@@ -32,10 +32,10 @@ public class Wrapper2 {
         return arr;
     }
 
-    private static ArrayList<String> convertToLettersForm(ArrayList<int[]> bitForm, int n){
+    private static ArrayList<String> convertToLettersForm(ArrayList<byte[]> bitForm, int n){
         ArrayList<String> res = new ArrayList<>();
         StringBuilder buf = new StringBuilder();
-        for (int[] ints : bitForm) {
+        for (byte[] ints : bitForm) {
             for (int j = 0; j < ints.length - 1; j++) {
                 if (ints[j] != 3) {
                     switch (j) {

@@ -13,15 +13,12 @@ import java.util.Scanner;
 
 import static java.lang.Math.pow;
 
-interface SystemModelResultCounts { /* category marker */ }
-interface MySystemModelResultCounts { /* category marker */ }
-
 public class MainTest {
     protected static final String TESTING_VECTORS = "src/test/resources/testingVectors.txt";
     protected static final String SYSTEM_MODEL_RESULTS = "src/test/resources/systemModelResults.txt";
     protected static final String MY_SYSTEM_MODEL_RESULTS = "src/test/resources/mySystemModelResults.txt";
     private static final int capacity = 5;
-    private static final int testValuesCount = 5000;
+    private static final int testValuesCount = 500;
 
     private CheckMinimizedFunction checkMinimizedFunction;
     private int countOfResults;

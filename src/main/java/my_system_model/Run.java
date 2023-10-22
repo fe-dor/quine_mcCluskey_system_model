@@ -22,9 +22,9 @@ public class Run {
 
     public static void main(String[] args) {
         //quineMcCluskey(func, n);
-        ArrayList<int[]> quineMcCluskey = quineMcCluskey(func3, n3);
+        ArrayList<byte[]> quineMcCluskey = quineMcCluskey(func3, n3);
         System.out.println(Arrays.toString(func3));
-        for (int[] arr : quineMcCluskey){
+        for (byte[] arr : quineMcCluskey){
             System.out.println(Arrays.toString(arr));
         }
     }
@@ -37,10 +37,10 @@ public class Run {
         return arr;
     }
 
-    static ArrayList<int[]> quineMcCluskey(int[] func, int n){
+    static ArrayList<byte[]> quineMcCluskey(int[] func, int n){
         int k = (int) Math.pow(2, n);
         //Массив регистров со всеми импилкантами, размер одного регситра - n, размер массива 2**n
-        int[][] implicants = new int[k][n];
+        byte[][] implicants = new byte[k][n];
         int ci; //Кол-во импликант
 
         //Получаем список импликант
@@ -52,7 +52,7 @@ public class Run {
                 binary = Integer.toBinaryString(i);
                 bs = binary.length();
                 for(int j = n - bs; j < n; j++){
-                    implicants[ci][j] = Integer.parseInt(binary.substring(j - (n - bs), j+1 - (n - bs)));
+                    implicants[ci][j] = (byte) Integer.parseInt(binary.substring(j - (n - bs), j+1 - (n - bs)));
                 }
                 ci++;
             }
@@ -60,7 +60,7 @@ public class Run {
 
 
         //Группы
-        int[][][][] groups = new int[6][k][k][n+1];
+        byte[][][][] groups = new byte[6][k][k][n+1];
 
 
         //Распределение по группам
@@ -76,10 +76,9 @@ public class Run {
             cn[0][c]++;
         }
 
-        //Группа с 4 переменными и одной *
-        int local_count = 0;
+        //Переменные для склеивания
         int cmp_out; //result of compare two numbers
-        int[] local; //new number got by merging
+        byte[] local; //new number got by merging
         int cmp_d; //compare down
         int cmp_u; //compare up
         boolean wf; //write flag
@@ -135,7 +134,7 @@ public class Run {
         int[][] quine_table = new int[32][32];
 
         //Массив простых импликант
-        int[][] pi = new int[32][6]; //prime implicants
+        byte[][] pi = new byte[32][6]; //prime implicants
 
         //Поиск всех простых импликант
         int cpi = 0; //count of prime implicants
@@ -152,7 +151,7 @@ public class Run {
         }
 
         //Массив 1-точек функции
-        int[][] p1 = new int[32][6];
+        byte[][] p1 = new byte[32][6];
 
         int cp1 = 0; //count of point 1
 
@@ -174,12 +173,12 @@ public class Run {
 
         //Поиск ядерных импликант
         int cicr; //core_implicant_check result
-        int cci = 0;
+        //int cci = 0;
         for(int i = 0; i < ci; i++){
             cicr = core_implicant_check(quine_table[i], cpi);
             if(cicr >= 0) {
                 pi[cicr][n] = 4;
-                cci++;
+                //cci++;
             }
         }
 
@@ -205,7 +204,7 @@ public class Run {
         }
         //Далее будем использовать одну из вариаций метода петрика.
         int pei = 0;//position of extra implicant
-        int cei = 0; //count of extra implicants
+        //int cei = 0; //count of extra implicants
         int c1c = 0; //count of 1 in column
         int max_c1c = 0;
 
@@ -235,7 +234,6 @@ public class Run {
                     break;
                 }
                 l++;
-                c1c = 0;
                 max_c1c = 0;
 
             }
@@ -264,7 +262,7 @@ public class Run {
         }
         */
         //System.out.println();
-        ArrayList<int[]> res = new ArrayList<>();
+        ArrayList<byte[]> res = new ArrayList<>();
         for (int i = 0; i < cpi; i++){
             if(pi[i][n] == 4) {
                 //System.out.print(Arrays.toString(pi[i]) + " ");
@@ -277,22 +275,9 @@ public class Run {
 
     }
 
-    static void output_cmd(int[][][][] groups0, int[][] cn, int n){
-        for(int r = 0; r < 6; r++) {
-            for (int i = 0; i <= n; i++) {
-                for (int j = 0; j < cn[r][i]; j++) {
-                    for (int t = 0; t < n; t++) {
-                        System.out.print(groups0[r][i][j][t] + " ");
-                    }
-                    System.out.print(" " + groups0[r][i][j][n]);
-                    System.out.println();
-                }
-                System.out.println();
-            }
-        }
-    }
 
-    static int count_of_1(int[] bin_num, int n){
+
+    static int count_of_1(byte[] bin_num, int n){
         int c = 0;
         for (int j = 0; j < n; j++){
             if (bin_num[j] == 1)
@@ -317,7 +302,7 @@ public class Run {
     }
 
 
-    static int compare_for_merging(int[] f1, int[] f2, int n){
+    static int compare_for_merging(byte[] f1, byte[] f2, int n){
         int local_count = 0;
         int t_pos = 0;
         for(int t = 0; t < n; t++){
@@ -332,7 +317,7 @@ public class Run {
             return -1;
     }
 
-    static boolean compare_implicants(int[] f1, int[] f2, int n){
+    static boolean compare_implicants(byte[] f1, byte[] f2, int n){
         for (int i = 0; i < n; i++){
             if (f1[i] != f2[i]){
                 return false;
@@ -341,7 +326,7 @@ public class Run {
         return true;
     }
 
-    static boolean compare_for_q_table(int[] p1, int[] si, int n) {
+    static boolean compare_for_q_table(byte[] p1, byte[] si, int n) {
         for (int i = 0; i < n; i++){
             if (!(p1[i] == si[i] || si[i] == 3)){
                 return false;

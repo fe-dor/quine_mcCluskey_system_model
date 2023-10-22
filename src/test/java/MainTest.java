@@ -1,7 +1,7 @@
 import org.apache.commons.math3.random.RandomDataGenerator;
-import org.junit.*;
 import my_system_model.Wrapper2;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import system_model.Wrapper1;
 
 
@@ -12,36 +12,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.Math.pow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainTest {
     protected static final String TESTING_VECTORS = "src/test/resources/testingVectors.txt";
     protected static final String SYSTEM_MODEL_RESULTS = "src/test/resources/systemModelResults.txt";
     protected static final String MY_SYSTEM_MODEL_RESULTS = "src/test/resources/mySystemModelResults.txt";
     private static final int capacity = 5;
-    private static final int testValuesCount = 500;
+    private static final int testValuesCount = 10000;
 
-    private CheckMinimizedFunction checkMinimizedFunction;
-    private int countOfResults;
-    private int countOfResultsMy;
+    private static final CheckMinimizedFunction checkMinimizedFunction = new CheckMinimizedFunction();
 
-//    public MainTest() {
-//        try {
-//            //createVectors(capacity, testValuesCount);
-//            countOfResults = getResults1();
-//            countOfResultsMy = getResults2(capacity);
-//            checkMinimizedFunction = new CheckMinimizedFunction(capacity, testValuesCount);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    @Before
-    public void testOutputResults(){
+    @BeforeAll
+    static void calculations(){
         try {
             createVectors(capacity, testValuesCount);
-            countOfResults = getResults1();
-            countOfResultsMy = getResults2(capacity);
-            checkMinimizedFunction = new CheckMinimizedFunction(capacity, testValuesCount);
+            getResults1();
+            getResults2(capacity);
+            checkMinimizedFunction.launch(capacity, testValuesCount);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -49,27 +38,49 @@ public class MainTest {
 
     @Test
     public void testCountOfResults(){
-        Assert.assertEquals(countOfResults, testValuesCount);
+        try {
+            int i = 0;
+            Scanner scanner = new Scanner(new File(SYSTEM_MODEL_RESULTS));
+            while(scanner.hasNextLine()){
+                scanner.nextLine();
+                i++;
+            }
+            scanner.close();
+            assertEquals(i, testValuesCount);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testCountOfResultsMy(){
-        Assert.assertEquals(countOfResultsMy, testValuesCount);
+        try {
+            int i = 0;
+            Scanner scanner = new Scanner(new File(MY_SYSTEM_MODEL_RESULTS));
+            while(scanner.hasNextLine()){
+                i++;
+                scanner.nextLine();
+            }
+            scanner.close();
+            assertEquals(i, testValuesCount);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testCountOfReadResults(){
-        Assert.assertEquals(checkMinimizedFunction.getTestingValues1().size(), testValuesCount);
+        assertEquals(checkMinimizedFunction.getTestingValues1().size(), testValuesCount);
     }
 
     @Test
     public void testCountOfReadResultsMy(){
-        Assert.assertEquals(checkMinimizedFunction.getTestingValues2().size(), testValuesCount);
+        assertEquals(checkMinimizedFunction.getTestingValues2().size(), testValuesCount);
     }
 
     @Test
     public void testCountOfReadInputVectors(){
-        Assert.assertEquals(checkMinimizedFunction.getInputVectors().size(), testValuesCount);
+        assertEquals(checkMinimizedFunction.getInputVectors().size(), testValuesCount);
     }
 
     @Test
@@ -84,7 +95,7 @@ public class MainTest {
 
     @Test
     public void testMetricForMinimizedFunction() throws FileNotFoundException {
-        Assert.assertTrue(checkMinimizedFunction.checkMetricOfResultFunction());
+        assertTrue(checkMinimizedFunction.checkMetricOfResultFunction());
     }
 
     private static void createVectors(int capacity, int count) throws FileNotFoundException {
@@ -136,4 +147,5 @@ public class MainTest {
         out.close();
         return testingValues.size();
     }
+
 }

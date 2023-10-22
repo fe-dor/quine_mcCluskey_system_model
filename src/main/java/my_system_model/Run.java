@@ -5,20 +5,20 @@ import java.util.Arrays;
 
 public class Run {
     //Ввод данных с платы:
-    static int n0 = 5; //разрядность функции
-    static int[] func = {0,1,1,0,0,1,1,1,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0};//вектор
+    static byte n0 = 5; //разрядность функции
+    static byte[] func = {0,1,1,0,0,1,1,1,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0};//вектор
 
-    static int n1 = 5; //разрядность функции
-    static int[] func1 = {1,1,1,0,0,1,1,1,1,1,0,1,1,1,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,1,0,0};//вектор
+    static byte n1 = 5; //разрядность функции
+    static byte[] func1 = {1,1,1,0,0,1,1,1,1,1,0,1,1,1,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,1,0,0};//вектор
 
-    static int n2 = 5; //разрядность функции
-    static int[] func2 = string_to_array("00101000101100010010100010110001");//вектор
+    static byte n2 = 5; //разрядность функции
+    static byte[] func2 = string_to_array("00101000101100010010100010110001");//вектор
 
-    static int n3 = 5; //разрядность функции
-    static int[] func3 = string_to_array("11111111111111111111111111111111");//вектор
+    static byte n3 = 5; //разрядность функции
+    static byte[] func3 = string_to_array("11111111111111111111111111111111");//вектор
 
-    static int n4 = 2; //разрядность функции
-    static int[] func4 = string_to_array("11");//вектор
+    static byte n4 = 2; //разрядность функции
+    static byte[] func4 = string_to_array("11");//вектор
 
     public static void main(String[] args) {
         //quineMcCluskey(func, n);
@@ -29,19 +29,19 @@ public class Run {
         }
     }
 
-    private static int[] string_to_array(String str){
-        int[] arr = new int[str.length()];
+    private static byte[] string_to_array(String str){
+        byte[] arr = new byte[str.length()];
         for (int i = 0; i < str.length(); i++){
-            arr[i] = Integer.parseInt(String.valueOf(str.charAt(i)));
+            arr[i] = (byte) Integer.parseInt(String.valueOf(str.charAt(i)));
         }
         return arr;
     }
 
-    static ArrayList<byte[]> quineMcCluskey(int[] func, int n){
-        int k = (int) Math.pow(2, n);
+    static ArrayList<byte[]> quineMcCluskey(byte[] func, int n){
+        byte k = (byte) Math.pow(2, n);
         //Массив регистров со всеми импилкантами, размер одного регситра - n, размер массива 2**n
         byte[][] implicants = new byte[k][n];
-        int ci; //Кол-во импликант
+        byte ci; //Кол-во импликант
 
         //Получаем список импликант
         ci = 0;
@@ -66,7 +66,7 @@ public class Run {
         //Распределение по группам
         //Группа с 5 переменными
         int c;
-        int[][] cn = new int[6][n+1];
+        byte[][] cn = new byte[6][n+1];
 
         for(int i = 0; i < ci; i++){
             c = count_of_1(implicants[i], n);
@@ -77,12 +77,12 @@ public class Run {
         }
 
         //Переменные для склеивания
-        int cmp_out; //result of compare two numbers
+        byte cmp_out; //result of compare two numbers
         byte[] local; //new number got by merging
-        int cmp_d; //compare down
-        int cmp_u; //compare up
+        byte cmp_d; //compare down
+        byte cmp_u; //compare up
         boolean wf; //write flag
-        int ml = 0; //merging level
+        byte ml = 0; //merging level
         boolean cf = true; //comparing flag used to show that it was comparing on this comparing level
 
         //Склеивание подгрупп в цикле
@@ -91,7 +91,7 @@ public class Run {
             cf = false;
 
             for (cmp_u = 0; cmp_u < n; cmp_u++) {
-                cmp_d = cmp_u + 1;
+                cmp_d = (byte) (cmp_u + 1);
                 for (int i = 0; i < cn[ml][cmp_u]; i++) {
                     for (int j = 0; j < cn[ml][cmp_d]; j++) {
                         //Функции сравнения вынести в виде task'ов
@@ -239,40 +239,13 @@ public class Run {
             }
         }
 
-
-        //Вывод таблицы Квайна
-        /*for (int i = 0; i < cpi; i++){
-            System.out.print(pi[i][0]+""+pi[i][1]+""+pi[i][2]+""+pi[i][3]+""+pi[i][4]+""+pi[i][5]+" ");
-        }*/
-        /*System.out.println();
-        for(int i = 0; i < ci; i++){
-            System.out.print(Arrays.toString(p1[i]) + " ");
-            for(int j = 0; j < cpi; j++){
-                System.out.print(quine_table[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        //Вывод Петрика
-        for (int i = 0; i < c1pt[0]; i++){
-            for (int j = 0; j < cpi; j++){
-                System.out.print(petrick_table[0][i][j] + " ");
-            }
-            System.out.println();
-        }
-        */
-        //System.out.println();
         ArrayList<byte[]> res = new ArrayList<>();
         for (int i = 0; i < cpi; i++){
             if(pi[i][n] == 4) {
-                //System.out.print(Arrays.toString(pi[i]) + " ");
                 res.add(pi[i]);
             }
         }
         return res;
-        //Переделать проект в maven.
-        //Добавить тесты для сравнения результатов двух алгоритмов.
-
     }
 
 
@@ -302,10 +275,10 @@ public class Run {
     }
 
 
-    static int compare_for_merging(byte[] f1, byte[] f2, int n){
+    static byte compare_for_merging(byte[] f1, byte[] f2, int n){
         int local_count = 0;
-        int t_pos = 0;
-        for(int t = 0; t < n; t++){
+        byte t_pos = 0;
+        for(byte t = 0; t < n; t++){
             if (f1[t] != f2[t]){
                 local_count++;
                 t_pos = t;

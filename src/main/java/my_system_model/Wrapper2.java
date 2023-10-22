@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 public class Wrapper2 {
     static int n2 = 5; //разрядность функции
-    static int[] func2 = string_to_array("00101000101100010010100010110001");//вектор
-    static int n3 = 5; //разрядность функции
-    static int[] func3 = string_to_array("11111111111111110000000000000000");//вектор
+    static byte[] func2 = string_to_array("00101000101100010010100010110001");//вектор
+    static int n3 = 3; //разрядность функции
+    static byte[] func3 = string_to_array("10011100");//вектор
 
     public static void main(String[] args) {
         ArrayList<byte[]> result = Run.quineMcCluskey(func3, n3);
@@ -24,10 +24,10 @@ public class Wrapper2 {
         return convertLettersFormToString(convertToLettersForm(result, capacity));
     }
 
-    private static int[] string_to_array(String str){
-        int[] arr = new int[str.length()];
+    private static byte[] string_to_array(String str){
+        byte[] arr = new byte[str.length()];
         for (int i = 0; i < str.length(); i++){
-            arr[i] = Integer.parseInt(String.valueOf(str.charAt(i)));
+            arr[i] = (byte) Integer.parseInt(String.valueOf(str.charAt(i)));
         }
         return arr;
     }
@@ -59,6 +59,8 @@ public class Wrapper2 {
                 res = new ArrayList<>(){};
                 res.add("1");
             }
+        } else if (bitForm.size() == 0){
+            res.add("0");
         }
         return res;
     }

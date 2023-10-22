@@ -1,14 +1,12 @@
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static java.lang.Math.pow;
-import static java.lang.Math.scalb;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CheckMinimizedFunction {
     protected static final String BAD_METRIC_LINES = "src/test/resources/badMetricLines.txt";
@@ -31,7 +29,10 @@ public class CheckMinimizedFunction {
         return inputVectors;
     }
 
-    public CheckMinimizedFunction(int capacity, int testValuesCount) {
+    public CheckMinimizedFunction() {
+    }
+
+    public void launch(int capacity, int testValuesCount){
         this.capacity = capacity;
         this.testValuesCount = testValuesCount;
         try {
@@ -54,7 +55,8 @@ public class CheckMinimizedFunction {
         boolean res;
         for (int i = 0; i < testValuesCount; i++) {
             res = checkOneVector(i, 0);
-            Assert.assertTrue(res);
+            System.out.println(res + " :" + i);
+            assertTrue(res);
         }
     }
 
@@ -62,7 +64,7 @@ public class CheckMinimizedFunction {
         boolean res;
         for (int i = 0; i < testValuesCount; i++) {
             res = checkOneVector(i, 1);
-            Assert.assertTrue(res);
+            assertTrue(res);
         }
     }
 
@@ -114,10 +116,13 @@ public class CheckMinimizedFunction {
             buf.insert(0, "0000".toCharArray(), 0, capacity - buf.length());
             for (char[] imp : impls){
                 result = checkOneImp(imp, buf.toString()) || result;
-                //System.out.println(Arrays.toString(imp) + " " + result);
+                //System.out.print(Arrays.toString(imp) + " ");
             }
+            System.out.print(i + " " + result + " " + inputVectors.get(index).charAt(i) + " " + buf.toString()
+                    +" " +"; ");
             final_result = final_result && ((result ? '1' : '0') == inputVectors.get(index).charAt(i));
         }
+        System.out.println();
         return final_result;
     }
 
@@ -135,6 +140,8 @@ public class CheckMinimizedFunction {
                 case ('D') -> res = index.charAt(3) == '1' && res;
                 case ('e') -> res = index.charAt(4) == '0' && res;
                 case ('E') -> res = index.charAt(4) == '1' && res;
+                case ('0') -> res = false;
+                case ('1') -> res = true;
             }
         }
         return res;
@@ -148,7 +155,7 @@ public class CheckMinimizedFunction {
         PrintWriter out = new PrintWriter(BAD_METRIC_LINES);
 
         for (int i = 0; i < testValuesCount; i++){
-            if(testingValues1.get(i).length() < testingValues2.get(i).length()){
+            if(testingValues1.get(i).length() != testingValues2.get(i).length()){
                 out.println(i+1 + " val1: " + testingValues1.get(i).length() + " " + testingValues1.get(i) +
                         " my val: " + testingValues2.get(i).length() + " " + testingValues2.get(i));
                 out.println(inputVectors.get(i));

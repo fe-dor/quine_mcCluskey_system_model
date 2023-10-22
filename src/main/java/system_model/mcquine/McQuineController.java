@@ -68,7 +68,7 @@ public class McQuineController {
 		System.out.print("MINTERMS:\t\t\t");
 		print(minterms);
 		System.out.println("NUMBER OF MINTERMS:\t\t" + minterms.length);
-		LITERAL_COUNT = evaluateLiteralCount(minterms[MINTERM_COUNT-1]);
+		LITERAL_COUNT = Math.max(evaluateLiteralCount(minterms[MINTERM_COUNT - 1]), 3);
 		System.out.println("NUMBER OF LITERALS TO USE:\t" + LITERAL_COUNT);
 		implicants = new Implicant[MINTERM_COUNT];
 		System.out.println("\nInitializing list of implicants...\n");
@@ -399,6 +399,8 @@ public class McQuineController {
 			e.printStackTrace();
 		}
 		System.setOut(fileStream);
+		if(vect.length() == 0)
+			return "0";
 		McQuineController engine = new McQuineController(vect);
 		engine.runQuineMcCluskey();
 		return engine.output;

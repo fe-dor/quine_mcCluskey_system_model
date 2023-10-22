@@ -12,7 +12,8 @@ public class Wrapper1 {
     }
 
     public static void main(String[] args) {
-        String vector = "11111111";
+        String vector = "10000000";
+        System.out.println(strVectorToMinterms(vector));
         String result = McQuineController.calculate(strVectorToMinterms(vector));
         System.out.println(result);
     }
@@ -23,10 +24,12 @@ public class Wrapper1 {
             if (vect.charAt(i) == '1')
                 res.append(i).append(" ");
         }
+        if(res.length() == 0)
+            return "";
         return res.deleteCharAt(res.length()-1).toString();
     }
 
-    private static String convertToLowUpForm(String str){
+    public static String convertToLowUpForm(String str){
         String up = str.toUpperCase();
         String low = str.toLowerCase();
         StringBuilder buf = new StringBuilder();

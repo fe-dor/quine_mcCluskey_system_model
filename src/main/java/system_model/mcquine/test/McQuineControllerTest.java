@@ -4,8 +4,6 @@ package system_model.mcquine.test;
 
 import system_model.mcquine.McQuineController;
 
-import static org.junit.Assert.*;
-
 public class McQuineControllerTest {
 	McQuineController engine;
 

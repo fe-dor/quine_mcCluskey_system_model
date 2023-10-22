@@ -29,9 +29,6 @@ public class CheckMinimizedFunction {
         return inputVectors;
     }
 
-    public CheckMinimizedFunction() {
-    }
-
     public void launch(int capacity, int testValuesCount){
         this.capacity = capacity;
         this.testValuesCount = testValuesCount;
@@ -42,13 +39,6 @@ public class CheckMinimizedFunction {
             System.out.println("Can't read results and input vectors files");
             e.printStackTrace();
         }
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-    public void setTestValuesCount(int testValuesCount) {
-        this.testValuesCount = testValuesCount;
     }
 
     public void testCheckMinimization(){
@@ -145,10 +135,6 @@ public class CheckMinimizedFunction {
             }
         }
         return res;
-    }
-
-    private int getMetricOfResultFunction(String str){
-        return str.length();
     }
 
     public boolean checkMetricOfResultFunction() throws FileNotFoundException {

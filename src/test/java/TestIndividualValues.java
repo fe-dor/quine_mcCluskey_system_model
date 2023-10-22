@@ -8,9 +8,9 @@ public class TestIndividualValues {
 
     @Test
     public void testAll0(){
-        assertEquals(Wrapper2.calculate("00000000000000000000000000000000", 5), "");
-        assertEquals(Wrapper2.calculate("0000000000000000", 4), "");
-        assertEquals(Wrapper2.calculate("00000000", 3), "");
+        assertEquals(Wrapper2.calculate("00000000000000000000000000000000", 5), "0");
+        assertEquals(Wrapper2.calculate("0000000000000000", 4), "0");
+        assertEquals(Wrapper2.calculate("00000000", 3), "0");
     }
 
     @Test
